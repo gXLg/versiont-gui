@@ -1,2 +1,2 @@
-# versiont-gui
-Version't Component for multi-version GUI implementation
+# Version't GUI
+Version't component for multi-version GUI implementation

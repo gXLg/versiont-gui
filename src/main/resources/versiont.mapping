@@ -1,0 +1,66 @@
+
+import net.minecraft.class_310/net.minecraft.client.Minecraft
+
+class Minecraft
+    static Minecraft method_1551/getInstance()
+    Gui gui
+
+# --------------------------------------------------------------------- #
+
+import net.minecraft.class_2561/net.minecraft.network.chat.Component
+
+class Component
+    static Component method_30163/nullToEmpty(String text)
+
+# --------------------------------------------------------------------- #
+
+import !net.minecraft.client.gui.Gui
+import net.minecraft.class_327/net.minecraft.client.gui.Font
+import net.minecraft.class_4068/net.minecraft.client.gui.components.Widget/net.minecraft.client.gui.components.Renderable
+import net.minecraft.class_437/net.minecraft.client.gui.screens.Screen
+import net.minecraft.class_332/net.minecraft.client.gui.GuiGraphics@<=1.21.11/net.minecraft.client.gui.GuiGraphicsExtractor@>=26.1
+import net.minecraft.class_4587/com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.class_364/net.minecraft.client.gui.components.events.GuiEventListener
+
+class Gui
+    @Nullable Screen screen
+    void setScreen(Screen screen)
+
+interface Renderable
+    void method_25394/render/extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
+    void method_25394/render(PoseStack stack, int mouseX, int mouseY, float partialTicks)
+
+class GuiEventListener
+    boolean method_25402/mouseClicked(double mouseX, double mouseY, int button)
+    boolean method_25402/mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
+    boolean method_25404/keyPressed(int keyCode, int scanCode, int modifiers)
+    boolean method_25404/keyPressed(KeyEvent event)
+
+class Screen extends GuiEventListener implements Renderable
+    <init>(Component title)
+    protected void method_25426/init()
+    void method_25419/onClose()
+
+    int field_22789/width
+    int field_22790/height
+    final Font field_22793/font
+    final Minecraft field_22787/minecraft
+
+    void method_25394/render/extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
+    void method_25394/render(PoseStack stack, int mouseX, int mouseY, float partialTicks)
+
+    void method_25420/renderBackground/extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
+    void method_25420/renderBackground(PoseStack stack)
+
+# --------------------------------------------------------------------- #
+
+import net.minecraft.class_11909/net.minecraft.client.input.MouseButtonEvent
+import net.minecraft.class_11908/net.minecraft.client.input.KeyEvent
+
+class KeyEvent
+    int comp_4795/key()
+
+class MouseButtonEvent
+    double comp_4798/x()
+    double comp_4799/y()
+    int method_74245/button()

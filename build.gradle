@@ -1,0 +1,76 @@
+plugins {
+    id "net.fabricmc.fabric-loom" version "${loom_version}"
+    id "dev.gxlg.versiont-toolchain" version "1.4.0-alpha1"
+    id "maven-publish"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.mod_id
+}
+
+repositories {}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    var idProv = providers.gradleProperty("mod_id")
+    var versionProv = providers.gradleProperty("mod_version")
+
+    inputs.properties(
+            "id": idProv.get(),
+            "version": versionProv.get()
+    )
+    filesMatching("fabric.mod.json") {
+        expand(
+                "mod_id": inputs.properties.id,
+                "mod_version": inputs.properties.version
+        )
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 16
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+jar {
+    inputs.property "archivesName", project.base.archivesName
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}" }
+    }
+}
+
+versiont {
+    mapping = file("src/main/resources/versiont.mapping")
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.mod_id
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = uri(layout.projectDirectory.dir("maven-repo"))
+        }
+    }
+}
+
+tasks.register("printPublicationInfo") {
+    doLast {
+        println("${project.group}:${project.mod_id}:${project.version}")
+    }
+}

@@ -1,0 +1,28 @@
+name: Publish on Maven Repository
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  publsih:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Java
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: "temurin"
+          java-version: 25
+
+      - name: Mark Executable
+        run: chmod +x ./gradlew
+
+      - name: Build and Publish to Maven Repository
+        uses: gXLg/maven-action@1d22cc255c7f3684f3dc0baa1fa72c8e86364cbb
+        with:
+          token: ${{ secrets.MAVEN_TOKEN }}
